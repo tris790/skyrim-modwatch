@@ -8,7 +8,7 @@ import ModlistTab from './ModlistTab';
 import SkyrimTab from './SkyrimTab';
 import SkyrimPrefsTab from './SkyrimPrefsTab';
 
-import nexus_api_mods_url from "./assets/skyrim_se_mods.db?url";
+import nexus_api_mods_url from "./assets/skyrim_se_mods.js?url";
 
 
 // const fetchModList = async (username) =>
