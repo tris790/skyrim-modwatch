@@ -16,7 +16,6 @@ import nexus_api_mods_url from "./assets/skyrim_se_mods.js?url";
 
 const fetchModList = async (username) => {
   const nexus_api_mods_req = import(nexus_api_mods_url);
-  console.log(nexus_api_mods_req)
   const modlist_api_mods_req = fetch(`https://api.modwat.ch/api/user/${username}/file/modlist`);
 
   const [{ default: nexus_api_mods }, modlist_api_mods_res] = await Promise.all([nexus_api_mods_req, modlist_api_mods_req])
