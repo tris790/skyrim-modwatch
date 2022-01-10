@@ -1,0 +1,96 @@
+.App {
+  text-align: center;
+}
+
+.logo {
+  animation: logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.link {
+  color: #b318f0;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------ Navigation ------------ */
+.Navigation>ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row;
+  list-style-type: none;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Navigation>ul>li[selected=true]>button {
+  color:pink;
+}
+
+.Navigation>ul>li>button {
+  border: none;
+  background: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  color: #719FB0;
+  font-weight: bold;
+}
+
+.Navigation>ul>li>button:hover {
+  text-decoration: underline;
+}
+
+
+/* ------------ Tab ------------ */
+
+.Tab>ul {
+  margin: 0;
+  padding: 50px;
+  display: flex;
+  flex-flow: column;
+  list-style-type: none;
+  justify-content: center;
+}
+
+.Tab>ul>li {
+  margin: 0;
+  padding: 15px;
+  display: flex;
+  flex-flow: row;
+  list-style-type: none;
+  gap:10px;
+}
+.Tab>ul>li:nth-child(odd) {
+  background-color: #393E46;
+}
+
+.Tab>ul>li>a {
+  color: #719FB0;
+  text-decoration: none;
+}
+
+/* ------------ Mod ------------ */
+.mod-category {
+  width: 100px;
+}
