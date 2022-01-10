@@ -8,13 +8,19 @@ import ModlistTab from './ModlistTab';
 import SkyrimTab from './SkyrimTab';
 import SkyrimPrefsTab from './SkyrimPrefsTab';
 
+import nexus_api_mods_url from "./assets/skyrim_se_mods.db?url";
+
+
 // const fetchModList = async (username) =>
 //   (await fetch(`https://api.modwat.ch/api/user/${username}/all`)).json();
 
 const fetchModList = async (username) => {
-  const nexus_api_mods_req = fetch("/src/assets/skyrim_se_mods.db");
+  const nexus_api_mods_req = import(nexus_api_mods_url);
+
   const modlist_api_mods_req = fetch(`https://api.modwat.ch/api/user/${username}/file/modlist`);
-  const [nexus_api_mods, modlist_api_mods] = await Promise.all((await Promise.all([nexus_api_mods_req, modlist_api_mods_req])).map(x => x.json()));
+
+  const [{ default: nexus_api_mods }, modlist_api_mods_res] = await Promise.all([nexus_api_mods_req, modlist_api_mods_req])
+  const modlist_api_mods = await modlist_api_mods_res.json();
 
   const mods = modlist_api_mods
     .map((mod, index) => {
