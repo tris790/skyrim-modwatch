@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import styles from './App.module.css';
-import { createSignal, createResource } from "solid-js";
+import { createSignal, createResource, onMount, onCleanup } from "solid-js";
 import Navigation from './Navigation';
 
 import PluginsTab from './PluginsTab';
@@ -9,10 +9,11 @@ import SkyrimTab from './SkyrimTab';
 import SkyrimPrefsTab from './SkyrimPrefsTab';
 
 import nexus_api_mods_url from "./assets/skyrim_se_mods.js?url";
+import AuthorInfo from './AuthorInfo';
 
 
-// const fetchModList = async (username) =>
-//   (await fetch(`https://api.modwat.ch/api/user/${username}/all`)).json();
+const fetchAuthorInfo = async (username) =>
+  (await fetch(`https://api.modwat.ch/api/user/${username}/all`)).json();
 
 const fetchModList = async (username) => {
   const nexus_api_mods_req = import(nexus_api_mods_url);
@@ -33,21 +34,19 @@ const fetchModList = async (username) => {
   return mods;
 }
 
-const tabs = {
-  plugins: () => <PluginsTab />,
-  modlist: () => <ModlistTab />,
-  skyrim: () => <Skyrim />,
-  skyrimPrefsTab: () => <SkyrimPrefsTab />
-};
-
 export default function App() {
-  const [mods] = createResource("Meji-Zenith", fetchModList);
-  // const [mods] = createResource("TitansBane", fetchModList);
+  const [url, setUrl] = createSignal(window.location.hash.slice(1));
+  const [info] = createResource(url, fetchAuthorInfo);
+  const [mods] = createResource(url, fetchModList);
 
   const [selectedTab, setSelectedTab] = createSignal("Modlist");
+  onMount(() => window.addEventListener("hashchange", () => setUrl(window.location.hash.slice(1))));
+  onCleanup(() => window.removeEventListener("hashchange", null));
+
   return (
     <div class={styles.App}>
       <h1>ModWatch</h1>
+      <AuthorInfo author={url()} info={info()} />
       <Navigation active={selectedTab()} navigateTo={setSelectedTab} />
 
       <Switch fallback={<p>wtf</p>}>
