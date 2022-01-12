@@ -8,14 +8,17 @@ export default function ModlistTab(props) {
             <ul>
                 <For each={props.mods}>
                     {(mod, index) =>
-                        <li id={`mod-${index}`}>
-                            <span>{index}</span> <span className={styles["mod-category"]}>{mod.category}</span>
-                            <Switch fallback={<div>{mod.name}</div>}>
-                                <Match when={mod.url} >
-                                    <a href={mod.url} target="_blank" rel="noopener noreferrer">{mod.name}</a>
-                                </Match>
-                            </Switch>
-                        </li>}
+                        <Show when={mod.name[0] !== '-' || !props.hideDisabled}>
+                            <li id={`mod-${index}`}>
+                                <span>{index}</span> <span className={styles["mod-category"]}>{mod.category}</span>
+                                <Switch fallback={<div>{mod.name}</div>}>
+                                    <Match when={mod.url} >
+                                        <a href={mod.url} target="_blank" rel="noopener noreferrer">{mod.name}</a>
+                                    </Match>
+                                </Switch>
+                            </li>
+                        </Show>
+                    }
                 </For>
             </ul>
         </div>

@@ -81,6 +81,7 @@
   list-style-type: none;
   gap:10px;
 }
+
 .Tab>ul>li:nth-child(odd) {
   background-color: #393E46;
 }
