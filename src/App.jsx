@@ -40,14 +40,26 @@ const binarySearchModList = (mod_list, target) => {
   return null;
 }
 
-const fetchAuthorInfo = async (username) =>
-  (await fetch(`https://api.modwat.ch/api/user/${username}/all`)).json();
+const fetchAuthorInfo = async (username) => {
+  if (!username)
+    return {};
+
+  const result = (await fetch(`https://api.modwat.ch/api/user/${username}/all`));
+  if (!result.ok)
+    return {};
+  return result.json();
+}
 
 const fetchModList = async (username) => {
+  if (!username)
+    return [];
+
   const nexus_api_mods_req = import(nexus_api_mods_url);
   const modlist_api_mods_req = fetch(`https://api.modwat.ch/api/user/${username}/file/modlist`);
 
-  const [{ default: nexus_api_mods }, modlist_api_mods_res] = await Promise.all([nexus_api_mods_req, modlist_api_mods_req])
+  const [{ default: nexus_api_mods }, modlist_api_mods_res] = await Promise.all([nexus_api_mods_req, modlist_api_mods_req]);
+  if (!modlist_api_mods_res.ok)
+    return [];
   const modlist_api_mods = await modlist_api_mods_res.json();
 
   // TODO: Presort
@@ -55,6 +67,7 @@ const fetchModList = async (username) => {
 
   const time_start = window.performance.now();
   const mods = modlist_api_mods
+    .reverse()
     .map(mod => {
 
       const found_mod = binarySearchModList(nexus_api_mods, mod.slice(1).toLowerCase())
